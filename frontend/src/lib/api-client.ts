@@ -1,12 +1,9 @@
 import { ApiResponse } from "@/types/api";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ??
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
   "https://pratima-verma-backend-w3s2.onrender.com";
 
-// Backend error detail (implementation details, missing-config messages, raw
-// status text) is useful for local debugging but must never reach a real
-// visitor's console in production.
 function logDev(...args: unknown[]) {
   if (process.env.NODE_ENV !== "production") {
     console.error(...args);
@@ -17,72 +14,105 @@ export async function apiGet<T>(path: string): Promise<T> {
   const url = `${API_BASE_URL}${path}`;
 
   let res: Response;
+
   try {
     res = await fetch(url);
   } catch (err) {
-    // The browser deliberately hides *why* a fetch failed at the network
-    // level (CORS rejection, connection refused, DNS failure, and mixed
-    // content all throw this same generic TypeError) — so we log the exact
-    // URL and point at DevTools, which does show the real reason.
     logDev(`[api-client] Network-level failure calling ${url}`, err);
+
     throw new Error(
-      `Could not reach ${url} (backend down, wrong port, or CORS rejection — check DevTools → Network for the request to ${path})`
+      `Could not reach ${url}. Check whether the backend is running and whether CORS is configured correctly.`
     );
   }
 
   if (!res.ok) {
     logDev(`[api-client] ${url} responded with HTTP ${res.status}`);
-    throw new Error(`${url} responded with HTTP ${res.status}`);
+
+    throw new Error(
+      `${url} responded with HTTP ${res.status}`
+    );
   }
 
   let body: ApiResponse<T>;
+
   try {
-    body = await res.json();
+    body = (await res.json()) as ApiResponse<T>;
   } catch (err) {
-    logDev(`[api-client] ${url} returned a non-JSON response`, err);
-    throw new Error(`${url} returned a response that isn't valid JSON`);
+    logDev(`[api-client] ${url} returned invalid JSON`, err);
+
+    throw new Error(
+      `${url} returned a response that is not valid JSON`
+    );
   }
 
   if (!body.success) {
-    logDev(`[api-client] ${url} reported an unsuccessful response`, body.message);
-    throw new Error(body.message ?? `${url} reported an unsuccessful response`);
+    const message =
+      "message" in body && typeof body.message === "string"
+        ? body.message
+        : `Request to ${url} failed`;
+
+    logDev(`[api-client] ${url} returned an API error`, message);
+
+    throw new Error(message);
   }
 
   return body.data;
 }
 
-export async function apiPost<T>(path: string, payload: unknown): Promise<T> {
+export async function apiPost<T>(
+  path: string,
+  payload: unknown
+): Promise<T> {
   const url = `${API_BASE_URL}${path}`;
 
   let res: Response;
+
   try {
     res = await fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(payload),
     });
   } catch (err) {
     logDev(`[api-client] Network-level failure calling ${url}`, err);
+
     throw new Error(
-      `Could not reach ${url} (backend down, wrong port, or CORS rejection — check DevTools → Network for the request to ${path})`
+      `Could not reach ${url}. Check whether the backend is running and whether CORS is configured correctly.`
     );
   }
 
-  // Both success (ApiResponse<T>) and error (ApiError) bodies are valid JSON,
-  // just different shapes — read the status/body together to tell them apart.
-  let body: Partial<ApiResponse<T>> & { message?: string };
-  try {
-    body = await res.json();
-  } catch (err) {
-    logDev(`[api-client] ${url} returned a non-JSON response`, err);
-    throw new Error(`${url} returned a response that isn't valid JSON`);
+  if (!res.ok) {
+    logDev(`[api-client] ${url} responded with HTTP ${res.status}`);
+
+    throw new Error(
+      `${url} responded with HTTP ${res.status}`
+    );
   }
 
-  if (!res.ok || !body.success) {
-    const message = body.message ?? `${url} responded with HTTP ${res.status}`;
-    logDev(`[api-client] ${url} failed:`, message);
+  let body: ApiResponse<T>;
+
+  try {
+    body = (await res.json()) as ApiResponse<T>;
+  } catch (err) {
+    logDev(`[api-client] ${url} returned invalid JSON`, err);
+
+    throw new Error(
+      `${url} returned a response that is not valid JSON`
+    );
+  }
+
+  if (!body.success) {
+    const message =
+      "message" in body && typeof body.message === "string"
+        ? body.message
+        : `Request to ${url} failed`;
+
+    logDev(`[api-client] ${url} returned an API error`, message);
+
     throw new Error(message);
   }
 
-  return body.data as T;
+  return body.data;
 }
