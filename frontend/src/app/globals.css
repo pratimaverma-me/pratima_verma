@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 250 250 249;
+  --section: 245 245 244;
+  --surface: 255 255 255;
+  --border: 226 232 240;
+  --primary: 13 148 136;
+  --accent-hover: 20 184 166;
+  --secondary: 6 182 212;
+  --heading: 15 23 42;
+  --body: 51 65 85;
+  --muted: 100 116 139;
+  --on-primary: 255 255 255;
+  --success: 34 197 94;
+  --warning: 245 158 11;
+  --error: 239 68 68;
+}
+
+.dark {
+  --background: 11 15 20;
+  --section: 19 26 34;
+  --surface: 26 34 45;
+  --border: 46 58 70;
+  --primary: 206 66 43;
+  --accent-hover: 232 93 4;
+  --secondary: 6 182 212;
+  --heading: 248 250 252;
+  --body: 203 213 225;
+  --muted: 148 163 184;
+  --on-primary: 248 250 252;
+  --success: 34 197 94;
+  --warning: 245 158 11;
+  --error: 239 68 68;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: rgb(var(--background));
+  color: rgb(var(--heading));
+}
+
+::selection {
+  background-color: rgb(var(--primary) / 0.3);
+}
+
+.section-container {
+  @apply mx-auto w-full max-w-content px-6 sm:px-8 lg:px-12;
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgb(var(--border) / 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--border) / 0.5) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.glass {
+  background-color: rgb(var(--surface) / 0.6);
+  border: 1px solid rgb(var(--border) / 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
