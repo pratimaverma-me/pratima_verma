@@ -12,6 +12,9 @@ pub fn create_router() -> Router {
         "http://localhost:3001"
             .parse::<axum::http::HeaderValue>()
             .unwrap(),
+        "https://pratima-verma-iind.vercel.app"
+            .parse::<axum::http::HeaderValue>()
+            .unwrap(),
     ]);
 
     let cors = CorsLayer::new()
