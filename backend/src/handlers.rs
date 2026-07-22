@@ -327,38 +327,28 @@ pub async fn projects() -> Json<ApiResponse<Vec<ProjectItem>>> {
             featured: true,
             metrics: vec![
                 ProjectMetric {
-                    label: "Filtered Messages Processed".to_string(),
+                    label: "Filtered Messages".to_string(),
                     value: "3.01M".to_string(),
-                    caption: "Total order + trade messages — measured".to_string(),
-                },
-                ProjectMetric {
-                    label: "Order Messages".to_string(),
-                    value: "2.82M".to_string(),
-                    caption: "Measured".to_string(),
-                },
-                ProjectMetric {
-                    label: "Trade Messages".to_string(),
-                    value: "190.7K".to_string(),
-                    caption: "Measured".to_string(),
+                    caption: "3,010,816 messages — measured".to_string(),
                 },
                 ProjectMetric {
                     label: "Core Processing Time".to_string(),
                     value: "93.73 ms".to_string(),
-                    caption: "Core order book stage only — measured".to_string(),
+                    caption: "Core stage only — measured".to_string(),
                 },
                 ProjectMetric {
                     label: "Average Core Latency".to_string(),
-                    value: "31.1 ns/message".to_string(),
-                    caption: "Average, not worst-case — measured".to_string(),
+                    value: "31.1 ns/msg".to_string(),
+                    caption: "Average, not total runtime — measured".to_string(),
                 },
                 ProjectMetric {
-                    label: "Measured Core Throughput".to_string(),
+                    label: "Measured Throughput".to_string(),
                     value: "32.12M msg/s".to_string(),
                     caption: "Core processing stage — measured".to_string(),
                 },
             ],
             metrics_note: Some(
-                "Measured on a release build for one selected instrument token. Results may vary by hardware, compiler settings, data characteristics, and benchmark methodology."
+                "Measured on a release build for one selected instrument token: 3,010,816 total filtered messages (2,820,105 order, 190,711 trade). 31.1 ns is average core processing latency per message, not the time to process all messages — 93.73 ms is the total core processing time for all 3,010,816 filtered messages. File reading and token filtering are measured separately and are not included in this latency figure or described as end-to-end latency. Results may vary by hardware, compiler settings, data characteristics, and benchmark methodology."
                     .to_string(),
             ),
             benchmark_breakdown: vec![
