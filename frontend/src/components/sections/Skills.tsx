@@ -84,14 +84,14 @@ export function Skills() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5 sm:gap-6"
+          className="grid grid-cols-1 gap-5 lg:grid-cols-2 sm:gap-6 2xl:grid-cols-3"
         >
           {state.data.map((category) => {
             const meta = CATEGORY_META[category.category] ?? DEFAULT_META;
             const Icon = meta.icon;
 
             return (
-              <motion.div key={category.id} variants={item} className="h-full">
+              <motion.div key={category.id} variants={item} className="h-full min-w-0">
                 <Card className="flex h-full min-h-[176px] flex-col">
                   <div className="flex items-center gap-3">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/30 bg-accent/10 text-accent">

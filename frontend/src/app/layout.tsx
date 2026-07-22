@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { MotionProvider } from "@/components/layout/MotionProvider";
@@ -16,16 +16,23 @@ export const metadata: Metadata = {
   keywords: siteConfig.keywords,
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <MotionProvider>
-            <Sidebar />
-            <div className="lg:ml-[35%] lg:w-[65%]">
-              <main>{children}</main>
-              <Footer />
+            <div className="min-h-screen w-full max-w-full overflow-x-hidden md:grid md:grid-cols-[minmax(280px,38%)_minmax(0,1fr)]">
+              <Sidebar />
+              <div className="min-w-0 w-full">
+                <main>{children}</main>
+                <Footer />
+              </div>
             </div>
           </MotionProvider>
         </ThemeProvider>

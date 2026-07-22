@@ -286,10 +286,10 @@ export function Projects() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-6"
+          className="grid grid-cols-1 gap-6 xl:grid-cols-2"
         >
           {state.data.map((project) => (
-            <motion.div key={project.id} variants={item}>
+            <motion.div key={project.id} variants={item} className="min-w-0">
               <ProjectCard
                 project={project}
                 isExpanded={expandedProjectId === project.id}
