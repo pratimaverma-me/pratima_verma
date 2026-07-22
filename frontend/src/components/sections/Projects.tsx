@@ -1,7 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Globe, Package } from "lucide-react";
+import {
+  Activity,
+  ChevronDown,
+  ExternalLink,
+  Github,
+  Globe,
+  Package,
+  Waves,
+} from "lucide-react";
 import { getProjects } from "@/services/projects-service";
 import { useApi } from "@/lib/useApi";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
@@ -10,6 +18,7 @@ import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
+import { ProjectItem } from "@/types/project";
 
 const container = {
   hidden: {},
@@ -29,6 +38,19 @@ function linkIcon(label: string) {
   return ExternalLink;
 }
 
+function projectVisual(project: ProjectItem) {
+  const stack = project.techStack.join(" ").toLowerCase();
+  const name = project.name.toLowerCase();
+
+  if (stack.includes("yolo") || name.includes("flood") || name.includes("detection")) {
+    return { Icon: Waves, label: "Computer Vision" };
+  }
+  if (stack.includes("order book") || stack.includes("low-latency") || stack.includes("market microstructure")) {
+    return { Icon: Activity, label: "Low-Latency Systems" };
+  }
+  return { Icon: Package, label: "Rust Library" };
+}
+
 export function Projects() {
   const state = useApi(getProjects);
 
@@ -45,120 +67,132 @@ export function Projects() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid gap-6 sm:grid-cols-2"
+          className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-6"
         >
-          {state.data.map((project) => (
-            <motion.div key={project.id} variants={item}>
-              <Card
-                className={`group flex h-full flex-col overflow-hidden ${
-                  project.featured ? "border-accent/30" : ""
-                }`}
-              >
-                <div className="relative -mx-6 -mt-6 mb-5 h-40 overflow-hidden sm:-mx-8 sm:-mt-8 sm:mb-6">
-                  {project.imageUrl ? (
-                    <img
-                      src={project.imageUrl}
-                      alt={project.name}
-                      className="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-accent/25 via-secondary/15 to-background transition-transform duration-300 ease-out group-hover:scale-105">
-                      <span className="font-mono text-5xl font-bold text-foreground/15">
-                        {project.name.charAt(0)}
-                      </span>
-                    </div>
-                  )}
-                  {project.featured && (
-                    <span className="absolute left-3 top-3 rounded-md border border-accent/40 bg-background/80 px-2 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.15em] text-accent backdrop-blur">
-                      Featured
-                    </span>
-                  )}
-                </div>
+          {state.data.map((project) => {
+            const { Icon, label } = projectVisual(project);
 
-                <div className="flex items-baseline justify-between gap-2">
-                  <h3 className="text-lg font-semibold text-foreground">{project.name}</h3>
-                  <span className="font-mono text-xs text-muted">{project.period}</span>
-                </div>
-
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/80">
-                  {project.description}
-                </p>
-
-                {project.metrics.length > 0 && (
-                  <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    {project.metrics.map((metric) => (
-                      <div
-                        key={metric.label}
-                        className="min-w-0 rounded-xl border border-border bg-background/40 p-3 sm:p-4"
-                      >
-                        <p className="break-words font-mono text-[10px] uppercase tracking-wide text-muted">
-                          {metric.label}
-                        </p>
-                        <p className="mt-1 break-words text-2xl font-bold text-accent sm:text-3xl">
-                          {metric.value}
-                        </p>
-                        <p className="mt-0.5 break-words text-[11px] leading-snug text-muted">
-                          {metric.caption}
-                        </p>
+            return (
+              <motion.div key={project.id} variants={item}>
+                <Card
+                  className={`group flex h-full flex-col overflow-hidden ${
+                    project.featured ? "border-accent/30" : ""
+                  }`}
+                >
+                  <div className="relative -mx-6 -mt-6 mb-4 h-28 overflow-hidden sm:-mx-8 sm:-mt-8 sm:mb-5">
+                    {project.imageUrl ? (
+                      <img
+                        src={project.imageUrl}
+                        alt={project.name}
+                        className="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center gap-2.5 bg-gradient-to-br from-accent/20 via-secondary/10 to-background transition-transform duration-300 ease-out group-hover:scale-105">
+                        <Icon size={20} className="text-accent/70" aria-hidden="true" />
+                        <span className="font-mono text-[11px] font-medium uppercase tracking-[0.15em] text-foreground/40">
+                          {label}
+                        </span>
                       </div>
-                    ))}
+                    )}
+                    {project.featured && (
+                      <span className="absolute left-3 top-3 rounded-md border border-accent/40 bg-background/80 px-2 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.15em] text-accent backdrop-blur">
+                        Featured
+                      </span>
+                    )}
                   </div>
-                )}
-                {project.metricsNote && (
-                  <p className="mt-3 break-words text-xs italic leading-relaxed text-muted">
-                    {project.metricsNote}
-                  </p>
-                )}
 
-                {project.benchmarkBreakdown.length > 0 && (
-                  <div className="mt-4 rounded-xl border border-border bg-background/30 p-3 sm:p-4">
-                    <p className="font-mono text-[10px] uppercase tracking-wide text-muted">
-                      Benchmark Breakdown
-                    </p>
-                    <dl className="mt-2 space-y-1.5">
-                      {project.benchmarkBreakdown.map((stage) => (
+                  <div className="flex items-baseline justify-between gap-2">
+                    <h3 className="text-lg font-semibold text-foreground">{project.name}</h3>
+                    <span className="shrink-0 font-mono text-xs text-muted">{project.period}</span>
+                  </div>
+
+                  <p className="mt-2 text-sm leading-relaxed text-foreground/80">
+                    {project.description}
+                  </p>
+
+                  {project.metrics.length > 0 && (
+                    <div className="mt-4 grid grid-cols-2 gap-2 sm:gap-3">
+                      {project.metrics.map((metric) => (
                         <div
-                          key={stage.label}
-                          className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5"
+                          key={metric.label}
+                          className="min-w-0 rounded-lg border border-border bg-background/40 p-3 sm:p-4"
                         >
-                          <dt className="break-words text-xs text-foreground/80">{stage.label}</dt>
-                          <dd className="whitespace-nowrap font-mono text-xs font-medium text-accent">
-                            {stage.value}
-                          </dd>
+                          <p className="break-words font-mono text-[10px] uppercase tracking-wide text-muted">
+                            {metric.label}
+                          </p>
+                          <p className="mt-1 break-words text-xl font-bold text-accent sm:text-2xl">
+                            {metric.value}
+                          </p>
+                          <p className="mt-0.5 break-words text-[11px] leading-snug text-muted">
+                            {metric.caption}
+                          </p>
                         </div>
                       ))}
-                    </dl>
-                  </div>
-                )}
+                    </div>
+                  )}
+                  {project.metricsNote && (
+                    <p className="mt-2 break-words text-[11px] leading-snug text-muted">
+                      {project.metricsNote}
+                    </p>
+                  )}
 
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {project.techStack.map((tech) => (
-                    <Badge key={tech}>{tech}</Badge>
-                  ))}
-                </div>
+                  {project.benchmarkBreakdown.length > 0 && (
+                    <details className="group/details mt-3 rounded-lg border border-border bg-background/30 open:bg-background/40">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 rounded-lg px-3 py-2 font-mono text-[11px] font-medium uppercase tracking-wide text-accent transition-colors duration-200 ease-out hover:text-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/60 [&::-webkit-details-marker]:hidden">
+                        <span>View benchmark details</span>
+                        <ChevronDown
+                          size={14}
+                          className="shrink-0 transition-transform duration-200 ease-out group-open/details:rotate-180"
+                          aria-hidden="true"
+                        />
+                      </summary>
+                      <dl className="space-y-1.5 px-3 pb-3 pt-1">
+                        {project.benchmarkBreakdown.map((stage) => (
+                          <div
+                            key={stage.label}
+                            className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5"
+                          >
+                            <dt className="break-words text-xs text-foreground/80">{stage.label}</dt>
+                            <dd className="whitespace-nowrap font-mono text-xs font-medium text-accent">
+                              {stage.value}
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </details>
+                  )}
 
-                {project.links.length > 0 && (
-                  <div className="mt-5 flex flex-wrap gap-3">
-                    {project.links.map((link) => {
-                      const Icon = linkIcon(link.label);
-                      return (
-                        <a
-                          key={link.href}
-                          href={link.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background/40 px-3 py-1.5 text-sm font-medium text-accent transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-accent-hover/40 hover:bg-background/70"
-                        >
-                          <Icon size={14} />
-                          {link.label}
-                        </a>
-                      );
-                    })}
+                  <div className="mt-auto pt-4">
+                    <div className="flex flex-wrap gap-1.5">
+                      {project.techStack.map((tech) => (
+                        <Badge key={tech}>{tech}</Badge>
+                      ))}
+                    </div>
+
+                    {project.links.length > 0 && (
+                      <div className="mt-4 flex flex-wrap gap-3">
+                        {project.links.map((link) => {
+                          const Icon = linkIcon(link.label);
+                          return (
+                            <a
+                              key={link.href}
+                              href={link.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background/40 px-3 py-1.5 text-sm font-medium text-accent transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-accent-hover/40 hover:bg-background/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/60"
+                            >
+                              <Icon size={14} />
+                              {link.label}
+                            </a>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
-                )}
-              </Card>
-            </motion.div>
-          ))}
+                </Card>
+              </motion.div>
+            );
+          })}
         </motion.div>
       )}
     </AnimatedSection>

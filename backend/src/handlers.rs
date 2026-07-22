@@ -302,7 +302,7 @@ pub async fn projects() -> Json<ApiResponse<Vec<ProjectItem>>> {
             id: "proj-2".to_string(),
             name: "Order Book Reconstruction from Trade and Order Messages".to_string(),
             period: "Nov 2025 – Present".to_string(),
-            description: "Built a low-latency Rust order book engine for processing exchange order and trade messages from full-day market-data files at RMoney — maintaining bid/ask price levels, market depth, and best bid/best ask in real time.".to_string(),
+            description: "Built a low-latency Rust order book engine that reconstructs bid/ask levels, market depth, and best prices from exchange order and trade messages.".to_string(),
             highlights: vec![
                 "Parsed trade and order messages from exchange market-data feeds.".to_string(),
                 "Reconstructed the order book event by event from raw message streams.".to_string(),
@@ -316,11 +316,9 @@ pub async fn projects() -> Json<ApiResponse<Vec<ProjectItem>>> {
             tech_stack: vec![
                 "Rust".to_string(),
                 "C++".to_string(),
-                "Python".to_string(),
                 "Market Microstructure".to_string(),
                 "Order Book".to_string(),
                 "Low-Latency Systems".to_string(),
-                "Exchange Market Data".to_string(),
             ],
             image_url: None,
             links: vec![],
@@ -329,26 +327,26 @@ pub async fn projects() -> Json<ApiResponse<Vec<ProjectItem>>> {
                 ProjectMetric {
                     label: "Filtered Messages".to_string(),
                     value: "3.01M".to_string(),
-                    caption: "3,010,816 messages — measured".to_string(),
+                    caption: "Measured messages".to_string(),
                 },
                 ProjectMetric {
                     label: "Core Processing Time".to_string(),
                     value: "93.73 ms".to_string(),
-                    caption: "Core stage only — measured".to_string(),
+                    caption: "Core stage only".to_string(),
                 },
                 ProjectMetric {
                     label: "Average Core Latency".to_string(),
                     value: "31.1 ns/msg".to_string(),
-                    caption: "Average, not total runtime — measured".to_string(),
+                    caption: "Per processed message".to_string(),
                 },
                 ProjectMetric {
                     label: "Measured Throughput".to_string(),
                     value: "32.12M msg/s".to_string(),
-                    caption: "Core processing stage — measured".to_string(),
+                    caption: "Core processing stage".to_string(),
                 },
             ],
             metrics_note: Some(
-                "Measured on a release build for one selected instrument token: 3,010,816 total filtered messages (2,820,105 order, 190,711 trade). 31.1 ns is average core processing latency per message, not the time to process all messages — 93.73 ms is the total core processing time for all 3,010,816 filtered messages. File reading and token filtering are measured separately and are not included in this latency figure or described as end-to-end latency. Results may vary by hardware, compiler settings, data characteristics, and benchmark methodology."
+                "Release-build benchmark on one selected instrument token. File I/O and token filtering were measured separately."
                     .to_string(),
             ),
             benchmark_breakdown: vec![
