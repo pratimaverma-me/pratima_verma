@@ -3,7 +3,7 @@ use axum::http::StatusCode;
 
 use crate::models::{
     ContactRequest, ContactResponseData, EducationItem, ExperienceItem, HealthData, ProfileData,
-    ProjectItem, ProjectLink, SkillCategory, SocialLink,
+    ProjectItem, ProjectLink, ProjectMetric, SkillCategory, SocialLink,
 };
 use crate::response::{ApiError, ApiResponse};
 
@@ -291,6 +291,8 @@ pub async fn projects() -> Json<ApiResponse<Vec<ProjectItem>>> {
                 href: "https://pypi.org/project/orderpulse/".to_string(),
             }],
             featured: true,
+            metrics: vec![],
+            metrics_note: None,
         },
         ProjectItem {
             id: "proj-2".to_string(),
@@ -305,6 +307,7 @@ pub async fn projects() -> Json<ApiResponse<Vec<ProjectItem>>> {
                 "Calculated top-of-book and market depth from the reconstructed order book.".to_string(),
                 "Validated the reconstructed order book against exchange snapshots for correctness.".to_string(),
                 "Investigated missing, duplicate, and out-of-order messages.".to_string(),
+                "Benchmarked the engine against a full trading day of approximately 5 million order and trade messages, measuring an average per-message processing latency of ~32 nanoseconds.".to_string(),
             ],
             tech_stack: vec![
                 "C++".to_string(),
@@ -317,6 +320,32 @@ pub async fn projects() -> Json<ApiResponse<Vec<ProjectItem>>> {
             image_url: None,
             links: vec![],
             featured: true,
+            metrics: vec![
+                ProjectMetric {
+                    label: "Messages Processed".to_string(),
+                    value: "~5,000,000".to_string(),
+                    caption: "Full trading day replay — measured".to_string(),
+                },
+                ProjectMetric {
+                    label: "Avg Latency / Message".to_string(),
+                    value: "~32 ns".to_string(),
+                    caption: "Average, not worst-case — measured".to_string(),
+                },
+                ProjectMetric {
+                    label: "Total Processing Time".to_string(),
+                    value: "~0.16 s".to_string(),
+                    caption: "Derived: messages × avg latency".to_string(),
+                },
+                ProjectMetric {
+                    label: "Throughput".to_string(),
+                    value: "~31.25M msg/s".to_string(),
+                    caption: "Derived: 1s ÷ avg latency".to_string(),
+                },
+            ],
+            metrics_note: Some(
+                "Benchmark figures reflect average per-message processing latency within the core engine, measured across a full day's message replay — not a claim that all 5 million messages were processed in 32 nanoseconds. Total processing time and throughput are calculated directly from that average (messages × avg latency, and 1s ÷ avg latency, respectively). Actual end-to-end runtime may differ due to file I/O, message parsing, memory allocation, logging, and other system overhead."
+                    .to_string(),
+            ),
         },
         ProjectItem {
             id: "proj-3".to_string(),
@@ -336,6 +365,8 @@ pub async fn projects() -> Json<ApiResponse<Vec<ProjectItem>>> {
             image_url: None,
             links: vec![],
             featured: false,
+            metrics: vec![],
+            metrics_note: None,
         },
     ];
 

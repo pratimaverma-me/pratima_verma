@@ -96,4 +96,14 @@ pub struct ProjectItem {
     pub image_url: Option<String>,
     pub links: Vec<ProjectLink>,
     pub featured: bool,
+    pub metrics: Vec<ProjectMetric>,
+    pub metrics_note: Option<String>,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ProjectMetric {
+    pub label: String,
+    pub value: String,
+    pub caption: String,
 }
