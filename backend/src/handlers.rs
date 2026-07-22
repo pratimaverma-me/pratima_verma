@@ -370,6 +370,16 @@ pub async fn projects() -> Json<ApiResponse<Vec<ProjectItem>>> {
                     value: "93.73 ms".to_string(),
                     caption: "Applying filtered messages to the order book".to_string(),
                 },
+                ProjectMetric {
+                    label: "Order Messages".to_string(),
+                    value: "2,820,105".to_string(),
+                    caption: "Filtered order messages".to_string(),
+                },
+                ProjectMetric {
+                    label: "Trade Messages".to_string(),
+                    value: "190,711".to_string(),
+                    caption: "Filtered trade messages".to_string(),
+                },
             ],
         },
         ProjectItem {
