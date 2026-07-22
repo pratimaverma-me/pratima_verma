@@ -10,7 +10,7 @@ export function ResumeDownloadButton({ href, className = "" }: ResumeDownloadBut
     <a
       href={href}
       download="Pratima_Verma_Resume.pdf"
-      className={`inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-accent-foreground shadow-card transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-card-hover ${className}`}
+      className={`inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-accent-foreground shadow-card transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-card-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/70 ${className}`}
     >
       <Download size={16} />
       Download Resume

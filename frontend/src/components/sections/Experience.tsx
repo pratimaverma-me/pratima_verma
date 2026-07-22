@@ -45,7 +45,7 @@ export function Experience() {
                 className="absolute -left-[38px] top-6 h-3 w-3 rounded-full border-2 border-accent bg-background transition-transform duration-200 ease-out group-hover:scale-125 sm:-left-[46px]"
               />
 
-              <Card>
+              <Card className="hover:shadow-[0_0_32px_-8px_rgb(var(--primary)/0.35)]">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                   <h3 className="text-lg font-semibold text-foreground">{exp.role}</h3>
                   <span className="font-mono text-xs text-muted">
