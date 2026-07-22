@@ -3,6 +3,12 @@ export interface ProjectLink {
   href: string;
 }
 
+export interface ProjectMetric {
+  label: string;
+  value: string;
+  caption: string;
+}
+
 export interface ProjectItem {
   id: string;
   name: string;
@@ -13,4 +19,7 @@ export interface ProjectItem {
   imageUrl: string | null;
   links: ProjectLink[];
   featured: boolean;
+  metrics: ProjectMetric[];
+  metricsNote: string | null;
+  benchmarkBreakdown: ProjectMetric[];
 }

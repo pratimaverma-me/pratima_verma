@@ -84,6 +84,53 @@ export function Projects() {
                   {project.description}
                 </p>
 
+                {project.metrics.length > 0 && (
+                  <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {project.metrics.map((metric) => (
+                      <div
+                        key={metric.label}
+                        className="min-w-0 rounded-xl border border-border bg-background/40 p-3 sm:p-4"
+                      >
+                        <p className="break-words font-mono text-[10px] uppercase tracking-wide text-muted">
+                          {metric.label}
+                        </p>
+                        <p className="mt-1 break-words text-2xl font-bold text-accent sm:text-3xl">
+                          {metric.value}
+                        </p>
+                        <p className="mt-0.5 break-words text-[11px] leading-snug text-muted">
+                          {metric.caption}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {project.metricsNote && (
+                  <p className="mt-3 break-words text-xs italic leading-relaxed text-muted">
+                    {project.metricsNote}
+                  </p>
+                )}
+
+                {project.benchmarkBreakdown.length > 0 && (
+                  <div className="mt-4 rounded-xl border border-border bg-background/30 p-3 sm:p-4">
+                    <p className="font-mono text-[10px] uppercase tracking-wide text-muted">
+                      Benchmark Breakdown
+                    </p>
+                    <dl className="mt-2 space-y-1.5">
+                      {project.benchmarkBreakdown.map((stage) => (
+                        <div
+                          key={stage.label}
+                          className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5"
+                        >
+                          <dt className="break-words text-xs text-foreground/80">{stage.label}</dt>
+                          <dd className="whitespace-nowrap font-mono text-xs font-medium text-accent">
+                            {stage.value}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                )}
+
                 <div className="mt-4 flex flex-wrap gap-2">
                   {project.techStack.map((tech) => (
                     <Badge key={tech}>{tech}</Badge>
