@@ -98,6 +98,7 @@ pub struct ProjectItem {
     pub featured: bool,
     pub metrics: Vec<ProjectMetric>,
     pub metrics_note: Option<String>,
+    pub benchmark_breakdown: Vec<ProjectMetric>,
 }
 
 #[derive(Serialize)]

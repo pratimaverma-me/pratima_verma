@@ -121,6 +121,9 @@ pub async fn experience() -> Json<ApiResponse<Vec<ExperienceItem>>> {
                 "Optimized internal storage by replacing tree-based implementations with cache-friendly array-indexed designs to reduce latency.".to_string(),
                 "Applied Rust ownership, borrowing, and concurrency models for thread-safe and memory-safe execution.".to_string(),
                 "Developed unit tests, debugging workflows, benchmarks, and profiling tools to improve reliability and performance.".to_string(),
+                "Built a high-performance Rust order book engine that processed 3.01 million filtered order and trade messages in 93.73 ms of core processing time.".to_string(),
+                "Achieved ~31.1 ns average core processing latency per message and ~32.12 million messages per second measured core throughput in release-mode benchmarks.".to_string(),
+                "Designed a binary market-data processing pipeline with separate stages for file loading, token filtering, order book manager initialization, and core low-latency message processing.".to_string(),
             ],
             tags: vec![
                 "Rust".to_string(),
@@ -293,12 +296,13 @@ pub async fn projects() -> Json<ApiResponse<Vec<ProjectItem>>> {
             featured: true,
             metrics: vec![],
             metrics_note: None,
+            benchmark_breakdown: vec![],
         },
         ProjectItem {
             id: "proj-2".to_string(),
             name: "Order Book Reconstruction from Trade and Order Messages".to_string(),
             period: "Nov 2025 – Present".to_string(),
-            description: "Built an order book reconstruction system at RMoney using exchange trade and order messages, processing new order, modify, cancel, and trade execution events to maintain the bid side, ask side, price levels, order quantities, market depth, and best bid/best ask in real time.".to_string(),
+            description: "Built a low-latency Rust order book engine for processing exchange order and trade messages from full-day market-data files at RMoney — maintaining bid/ask price levels, market depth, and best bid/best ask in real time.".to_string(),
             highlights: vec![
                 "Parsed trade and order messages from exchange market-data feeds.".to_string(),
                 "Reconstructed the order book event by event from raw message streams.".to_string(),
@@ -307,9 +311,10 @@ pub async fn projects() -> Json<ApiResponse<Vec<ProjectItem>>> {
                 "Calculated top-of-book and market depth from the reconstructed order book.".to_string(),
                 "Validated the reconstructed order book against exchange snapshots for correctness.".to_string(),
                 "Investigated missing, duplicate, and out-of-order messages.".to_string(),
-                "Benchmarked the engine against a full trading day of approximately 5 million order and trade messages, measuring an average per-message processing latency of ~32 nanoseconds.".to_string(),
+                "Benchmarked the core processing stage against a full-day market-data file for a selected instrument token: the core order book processing stage handled approximately 3.01 million filtered order and trade messages in 93.73 ms, an average core processing latency of approximately 31.1 ns per message.".to_string(),
             ],
             tech_stack: vec![
+                "Rust".to_string(),
                 "C++".to_string(),
                 "Python".to_string(),
                 "Market Microstructure".to_string(),
@@ -322,30 +327,62 @@ pub async fn projects() -> Json<ApiResponse<Vec<ProjectItem>>> {
             featured: true,
             metrics: vec![
                 ProjectMetric {
-                    label: "Messages Processed".to_string(),
-                    value: "~5,000,000".to_string(),
-                    caption: "Full trading day replay — measured".to_string(),
+                    label: "Filtered Messages Processed".to_string(),
+                    value: "3.01M".to_string(),
+                    caption: "Total order + trade messages — measured".to_string(),
                 },
                 ProjectMetric {
-                    label: "Avg Latency / Message".to_string(),
-                    value: "~32 ns".to_string(),
+                    label: "Order Messages".to_string(),
+                    value: "2.82M".to_string(),
+                    caption: "Measured".to_string(),
+                },
+                ProjectMetric {
+                    label: "Trade Messages".to_string(),
+                    value: "190.7K".to_string(),
+                    caption: "Measured".to_string(),
+                },
+                ProjectMetric {
+                    label: "Core Processing Time".to_string(),
+                    value: "93.73 ms".to_string(),
+                    caption: "Core order book stage only — measured".to_string(),
+                },
+                ProjectMetric {
+                    label: "Average Core Latency".to_string(),
+                    value: "31.1 ns/message".to_string(),
                     caption: "Average, not worst-case — measured".to_string(),
                 },
                 ProjectMetric {
-                    label: "Total Processing Time".to_string(),
-                    value: "~0.16 s".to_string(),
-                    caption: "Derived: messages × avg latency".to_string(),
-                },
-                ProjectMetric {
-                    label: "Throughput".to_string(),
-                    value: "~31.25M msg/s".to_string(),
-                    caption: "Derived: 1s ÷ avg latency".to_string(),
+                    label: "Measured Core Throughput".to_string(),
+                    value: "32.12M msg/s".to_string(),
+                    caption: "Core processing stage — measured".to_string(),
                 },
             ],
             metrics_note: Some(
-                "Benchmark figures reflect average per-message processing latency within the core engine, measured across a full day's message replay — not a claim that all 5 million messages were processed in 32 nanoseconds. Total processing time and throughput are calculated directly from that average (messages × avg latency, and 1s ÷ avg latency, respectively). Actual end-to-end runtime may differ due to file I/O, message parsing, memory allocation, logging, and other system overhead."
+                "Measured on a release build for one selected instrument token. Results may vary by hardware, compiler settings, data characteristics, and benchmark methodology."
                     .to_string(),
             ),
+            benchmark_breakdown: vec![
+                ProjectMetric {
+                    label: "Full Binary File Read".to_string(),
+                    value: "6.27 s".to_string(),
+                    caption: "Reading the raw market-data file from disk".to_string(),
+                },
+                ProjectMetric {
+                    label: "Token Filtering".to_string(),
+                    value: "1.15 s".to_string(),
+                    caption: "Filtering messages for the selected instrument".to_string(),
+                },
+                ProjectMetric {
+                    label: "Order Book Manager Init".to_string(),
+                    value: "38.46 µs".to_string(),
+                    caption: "One-time setup before processing begins".to_string(),
+                },
+                ProjectMetric {
+                    label: "Core Order Book Processing".to_string(),
+                    value: "93.73 ms".to_string(),
+                    caption: "Applying filtered messages to the order book".to_string(),
+                },
+            ],
         },
         ProjectItem {
             id: "proj-3".to_string(),
@@ -367,6 +404,7 @@ pub async fn projects() -> Json<ApiResponse<Vec<ProjectItem>>> {
             featured: false,
             metrics: vec![],
             metrics_note: None,
+            benchmark_breakdown: vec![],
         },
     ];
 
