@@ -17,7 +17,7 @@ export function AnimatedSection({ id, children, className = "" }: AnimatedSectio
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.45, ease: "easeOut" }}
-      className={`border-b border-border py-20 ${className}`}
+      className={`scroll-mt-20 border-b border-border py-20 lg:scroll-mt-10 ${className}`}
     >
       <div className="section-container">{children}</div>
     </motion.section>

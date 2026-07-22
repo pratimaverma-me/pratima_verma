@@ -256,6 +256,40 @@ pub async fn skills() -> Json<ApiResponse<Vec<SkillCategory>>> {
                 "PyTorch".to_string(),
             ],
         },
+        SkillCategory {
+            id: "skills-9".to_string(),
+            category: "Backend Engineering".to_string(),
+            skills: vec![
+                "REST APIs".to_string(),
+                "Axum".to_string(),
+                "Actix".to_string(),
+                "PostgreSQL".to_string(),
+                "Authentication".to_string(),
+                "API Design".to_string(),
+            ],
+        },
+        SkillCategory {
+            id: "skills-10".to_string(),
+            category: "Market Data Infrastructure".to_string(),
+            skills: vec![
+                "Binary Protocol Parsing".to_string(),
+                "Streaming Ingestion".to_string(),
+                "Feed Normalization".to_string(),
+                "Tick Data".to_string(),
+                "Real-Time Pipelines".to_string(),
+            ],
+        },
+        SkillCategory {
+            id: "skills-11".to_string(),
+            category: "Quantitative Engineering".to_string(),
+            skills: vec![
+                "Market Microstructure".to_string(),
+                "Statistical Analysis".to_string(),
+                "Backtesting".to_string(),
+                "Numerical Computing".to_string(),
+                "Risk Metrics".to_string(),
+            ],
+        },
     ];
 
     Json(ApiResponse::success(data))
