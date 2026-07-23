@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import {
   Boxes,
   Calculator,
@@ -24,30 +23,6 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { Card } from "@/components/ui/Card";
-
-const container = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const item = {
-  hidden: {
-    opacity: 0,
-    y: 20,
-  },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
 
 const CATEGORY_META: Record<
   string,
@@ -147,52 +122,25 @@ export function Skills() {
 
       {state.status === "success" && (
         <>
-          <motion.div
+          <div
             id="skills-grid"
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="
-              grid
-              grid-cols-1
-              gap-5
-              md:grid-cols-2
-              2xl:grid-cols-3
-            "
+            className="grid grid-cols-1 gap-5 md:grid-cols-2 2xl:grid-cols-3"
           >
-            {visibleSkills.map((category) => {
+            {visibleSkills.map((category, categoryIndex) => {
               const meta =
                 CATEGORY_META[category.category] ?? DEFAULT_META;
 
               const Icon = meta.icon;
 
               return (
-                <motion.div
-                  key={category.id}
-                  variants={item}
+                <div
+                  key={`${category.category}-${categoryIndex}`}
                   className="h-full min-w-0"
                 >
                   <Card className="flex h-full min-h-[176px] flex-col">
                     <div className="flex items-center gap-3">
-                      <span
-                        className="
-                          flex
-                          h-9
-                          w-9
-                          shrink-0
-                          items-center
-                          justify-center
-                          rounded-lg
-                          border
-                          border-accent/30
-                          bg-accent/10
-                          text-accent
-                        "
-                      >
-                        <Icon
-                          size={17}
-                          aria-hidden="true"
-                        />
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/30 bg-accent/10 text-accent">
+                        <Icon size={17} aria-hidden="true" />
                       </span>
 
                       <h3 className="text-sm font-semibold tracking-wide text-foreground">
@@ -207,28 +155,28 @@ export function Skills() {
                     )}
 
                     <p className="mt-4 break-words text-[13px] leading-relaxed">
-                      {category.skills.map((skill, index) => (
+                      {category.skills.map((skill, skillIndex) => (
                         <span
-                          key={`${category.id}-${skill}`}
+                          key={`${category.category}-${skill}-${skillIndex}`}
                           className={
-                            index < 2
+                            skillIndex < 2
                               ? "font-medium text-foreground/90"
                               : "text-foreground/55"
                           }
                         >
                           {skill}
 
-                          {index < category.skills.length - 1
+                          {skillIndex < category.skills.length - 1
                             ? ", "
                             : ""}
                         </span>
                       ))}
                     </p>
                   </Card>
-                </motion.div>
+                </div>
               );
             })}
-          </motion.div>
+          </div>
 
           {hiddenCount > 0 && (
             <div className="mt-8 flex justify-center">
@@ -239,29 +187,7 @@ export function Skills() {
                 onClick={() => {
                   setShowAll((current) => !current);
                 }}
-                className="
-                  inline-flex
-                  items-center
-                  gap-1.5
-                  rounded-lg
-                  border
-                  border-border
-                  px-5
-                  py-2.5
-                  text-sm
-                  font-medium
-                  text-foreground/80
-                  transition-all
-                  duration-200
-                  ease-out
-                  hover:-translate-y-0.5
-                  hover:border-accent-hover/40
-                  hover:text-accent-hover
-                  focus-visible:outline
-                  focus-visible:outline-2
-                  focus-visible:outline-offset-2
-                  focus-visible:outline-accent/70
-                "
+                className="inline-flex items-center gap-1.5 rounded-lg border border-border px-5 py-2.5 text-sm font-medium text-foreground/80 transition-colors duration-200 hover:border-accent-hover/40 hover:text-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/70"
               >
                 {showAll
                   ? "Show Less"
@@ -270,13 +196,9 @@ export function Skills() {
                 <ChevronDown
                   size={14}
                   aria-hidden="true"
-                  className={`
-                    shrink-0
-                    transition-transform
-                    duration-200
-                    ease-out
-                    ${showAll ? "rotate-180" : ""}
-                  `}
+                  className={`shrink-0 transition-transform duration-200 ${
+                    showAll ? "rotate-180" : ""
+                  }`}
                 />
               </button>
             </div>
