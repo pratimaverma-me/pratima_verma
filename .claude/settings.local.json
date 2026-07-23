@@ -17,7 +17,8 @@
       "Bash(curl -s http://localhost:8080/api/v1/health)",
       "Bash(kill 1510072)",
       "Bash(curl -s -m 20 https://pratima-verma-backend-w3s2.onrender.com/api/v1/skills)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(curl -sS -m 25 -o /tmp/claude-1017/-home-pratima-portfolio/264b9260-9182-4f40-8334-6fd86add9d0b/scratchpad/live6.html https://pratima-verma-iind.vercel.app/)"
     ]
   }
 }
