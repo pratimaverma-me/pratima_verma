@@ -15,7 +15,9 @@
       "Bash(lsof -i :8080 -sTCP:LISTEN)",
       "Bash(curl -s -o /dev/null -w \"http status: %{http_code}\\\\n\" http://localhost:8080/api/v1/health)",
       "Bash(curl -s http://localhost:8080/api/v1/health)",
-      "Bash(kill 1510072)"
+      "Bash(kill 1510072)",
+      "Bash(curl -s -m 20 https://pratima-verma-backend-w3s2.onrender.com/api/v1/skills)",
+      "Bash(python3 -c ' *)"
     ]
   }
 }

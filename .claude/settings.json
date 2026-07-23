@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -sS -m 20 -o /tmp/claude-1017/-home-pratima-portfolio/264b9260-9182-4f40-8334-6fd86add9d0b/scratchpad/live2.html https://pratima-verma-iind.vercel.app/)"
+    ]
+  }
+}
