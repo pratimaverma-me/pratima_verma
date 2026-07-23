@@ -7,16 +7,61 @@ import { Contact } from "@/components/sections/Contact";
 
 export default function Home() {
   return (
-    <div className="min-h-screen lg:grid lg:grid-cols-[minmax(300px,38%)_minmax(0,1fr)]">
-      {/* Left sidebar */}
-      <aside className="w-full lg:sticky lg:top-0 lg:h-screen">
-        <div className="h-full px-6 py-10 lg:flex lg:flex-col lg:justify-between lg:px-10 lg:py-16">
-          <About />
-        </div>
+    <div className="min-h-screen">
+      {/* 
+        LEFT SIDE
+
+        Mobile:
+        - Normal page content
+        - Appears above the other sections
+
+        Desktop:
+        - Fixed to the left side
+        - Does not move while scrolling
+        - Uses 38% of the screen width
+      */}
+      <aside
+        className="
+          relative
+          w-full
+          px-6
+          py-10
+
+          lg:fixed
+          lg:inset-y-0
+          lg:left-0
+          lg:w-[38%]
+          lg:overflow-y-auto
+          lg:px-10
+          lg:py-16
+        "
+      >
+        <About />
       </aside>
 
-      {/* Right content */}
-      <main className="min-w-0 w-full px-6 pb-20 lg:px-10 lg:py-16">
+      {/*
+        RIGHT SIDE
+
+        Mobile:
+        - Full width
+
+        Desktop:
+        - Starts after the fixed 38% left sidebar
+        - Uses the remaining 62% width
+      */}
+      <main
+        className="
+          min-w-0
+          w-full
+          px-6
+          pb-20
+
+          lg:ml-[38%]
+          lg:w-[62%]
+          lg:px-10
+          lg:py-16
+        "
+      >
         <div className="mx-auto flex w-full max-w-4xl flex-col gap-24">
           <Experience />
           <Projects />
