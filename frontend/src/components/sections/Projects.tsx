@@ -98,10 +98,6 @@ function ProjectCard({
     project.metrics.length > 0 || project.benchmarkBreakdown.length > 0;
   const visibleTags = project.techStack.slice(0, COLLAPSED_TAG_LIMIT);
 
-  const isOrderBookProject =
-    project.name.toLowerCase().includes("order book") ||
-    project.techStack.join(" ").toLowerCase().includes("order book");
-
   return (
     <Card
       className={`group flex h-full flex-col overflow-hidden ${
@@ -172,18 +168,6 @@ function ProjectCard({
               <Badge key={tech}>{tech}</Badge>
             ))}
           </div>
-        )}
-
-        {!isExpanded && isOrderBookProject && (
-          <a
-            href="https://github.com/pratimaverma-me/orderbook-rust-"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-background/40 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-accent transition-all duration-200 ease-out hover:border-accent-hover/40 hover:bg-background/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/60"
-          >
-            <Github size={14} aria-hidden="true" />
-            GitHub Repository
-          </a>
         )}
 
         <button
