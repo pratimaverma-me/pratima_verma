@@ -29,7 +29,7 @@ export function Sidebar() {
       : [];
 
   return (
-    <aside className="relative w-full min-w-0 border-b border-border px-5 py-8 sm:px-8 sm:py-10 xl:sticky xl:top-0 xl:flex xl:h-screen xl:w-full xl:flex-col xl:justify-between xl:overflow-y-auto xl:border-b-0 xl:border-r xl:px-10 xl:py-14">
+    <aside className="relative w-full min-w-0 border-b border-border px-5 py-8 sm:px-8 sm:py-10 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-full lg:flex-col lg:justify-between lg:overflow-y-auto lg:border-b-0 lg:border-r lg:px-10 lg:py-14">
       <div>
         {state.status === "loading" && (
           <div className="space-y-4" role="status" aria-live="polite">
@@ -60,7 +60,7 @@ export function Sidebar() {
           </>
         )}
 
-        <nav aria-label="Section navigation" className="mt-6 hidden xl:mt-8 xl:block">
+        <nav aria-label="Section navigation" className="mt-6 hidden lg:mt-8 lg:block">
           <ul className="space-y-1">
             {navLinks.map((link) => {
               const id = link.href.slice(1);
@@ -98,7 +98,7 @@ export function Sidebar() {
 
         <nav
           aria-label="Section navigation"
-          className="-mx-1 mt-5 flex gap-1 overflow-x-auto pb-1 xl:hidden"
+          className="-mx-1 mt-5 flex gap-1 overflow-x-auto pb-1 lg:hidden"
         >
           {navLinks.map((link) => {
             const id = link.href.slice(1);
@@ -121,7 +121,7 @@ export function Sidebar() {
         </nav>
       </div>
 
-      <div className="mt-8 xl:mt-10">
+      <div className="mt-8 lg:mt-10">
         <div className="flex items-center gap-3">
           {socials.map((social) => {
             const Icon = socialIconMap[social.icon]!;
