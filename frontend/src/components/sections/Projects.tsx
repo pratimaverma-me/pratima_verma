@@ -48,7 +48,11 @@ function projectVisual(project: ProjectItem) {
   if (stack.includes("yolo") || name.includes("flood") || name.includes("detection")) {
     return { Icon: Waves, label: "Computer Vision" };
   }
-  if (stack.includes("order book") || stack.includes("low-latency") || stack.includes("market microstructure")) {
+  if (
+    stack.includes("order book") ||
+    stack.includes("low-latency") ||
+    stack.includes("market microstructure")
+  ) {
     return { Icon: Activity, label: "Low-Latency Systems" };
   }
   return { Icon: Package, label: "Rust Library" };
@@ -56,10 +60,12 @@ function projectVisual(project: ProjectItem) {
 
 function ProjectLinks({ links }: { links: ProjectItem["links"] }) {
   if (links.length === 0) return null;
+
   return (
     <div className="flex flex-wrap gap-3">
       {links.map((link) => {
         const Icon = linkIcon(link.label);
+
         return (
           <a
             key={link.href}
@@ -88,8 +94,13 @@ function ProjectCard({
 }) {
   const { Icon, label } = projectVisual(project);
   const contentId = `project-details-${project.id}`;
-  const hasPerformanceSection = project.metrics.length > 0 || project.benchmarkBreakdown.length > 0;
+  const hasPerformanceSection =
+    project.metrics.length > 0 || project.benchmarkBreakdown.length > 0;
   const visibleTags = project.techStack.slice(0, COLLAPSED_TAG_LIMIT);
+
+  const isOrderBookProject =
+    project.name.toLowerCase().includes("order book") ||
+    project.techStack.join(" ").toLowerCase().includes("order book");
 
   return (
     <Card
@@ -112,6 +123,7 @@ function ProjectCard({
             </span>
           </div>
         )}
+
         {project.featured && (
           <span className="absolute left-3 top-3 rounded-md border border-accent/40 bg-background/80 px-2 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.15em] text-accent backdrop-blur">
             Featured
@@ -140,9 +152,11 @@ function ProjectCard({
               <p className="break-words font-mono text-[10px] uppercase tracking-wide text-muted">
                 {metric.label}
               </p>
+
               <p className="mt-1 break-words text-xl font-bold text-accent sm:text-2xl">
                 {metric.value}
               </p>
+
               <p className="mt-0.5 break-words text-[11px] leading-snug text-muted">
                 {metric.caption}
               </p>
@@ -160,6 +174,18 @@ function ProjectCard({
           </div>
         )}
 
+        {!isExpanded && isOrderBookProject && (
+          <a
+            href="https://github.com/pratimaverma-me/orderbook-rust-"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-background/40 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-accent transition-all duration-200 ease-out hover:border-accent-hover/40 hover:bg-background/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/60"
+          >
+            <Github size={14} aria-hidden="true" />
+            GitHub Repository
+          </a>
+        )}
+
         <button
           type="button"
           aria-expanded={isExpanded}
@@ -170,9 +196,12 @@ function ProjectCard({
           }`}
         >
           {isExpanded ? "Show Less" : "View More"}
+
           <ChevronDown
             size={14}
-            className={`shrink-0 transition-transform duration-200 ease-out ${isExpanded ? "rotate-180" : ""}`}
+            className={`shrink-0 transition-transform duration-200 ease-out ${
+              isExpanded ? "rotate-180" : ""
+            }`}
             aria-hidden="true"
           />
         </button>
@@ -193,6 +222,7 @@ function ProjectCard({
                   <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.15em] text-muted">
                     Overview
                   </p>
+
                   <p className="mt-2 text-sm leading-relaxed text-foreground/80">
                     {project.description}
                   </p>
@@ -203,6 +233,7 @@ function ProjectCard({
                     <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.15em] text-muted">
                       Key Contributions
                     </p>
+
                     <ul className="mt-2 list-disc space-y-1.5 pl-4 text-sm leading-relaxed text-foreground/80">
                       {project.highlights.map((highlight, i) => (
                         <li key={i}>{highlight}</li>
@@ -216,11 +247,13 @@ function ProjectCard({
                     <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.15em] text-muted">
                       Performance Results
                     </p>
+
                     {project.metricsNote && (
                       <p className="mt-2 break-words text-xs leading-relaxed text-muted">
                         {project.metricsNote}
                       </p>
                     )}
+
                     {project.benchmarkBreakdown.length > 0 && (
                       <dl className="mt-3 space-y-1.5 rounded-lg border border-border bg-background/30 p-3">
                         {project.benchmarkBreakdown.map((stage) => (
@@ -228,7 +261,10 @@ function ProjectCard({
                             key={stage.label}
                             className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5"
                           >
-                            <dt className="break-words text-xs text-foreground/80">{stage.label}</dt>
+                            <dt className="break-words text-xs text-foreground/80">
+                              {stage.label}
+                            </dt>
+
                             <dd className="whitespace-nowrap font-mono text-xs font-medium text-accent">
                               {stage.value}
                             </dd>
@@ -243,6 +279,7 @@ function ProjectCard({
                   <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.15em] text-muted">
                     Technologies
                   </p>
+
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {project.techStack.map((tech) => (
                       <Badge key={tech}>{tech}</Badge>
@@ -255,6 +292,7 @@ function ProjectCard({
                     <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.15em] text-muted">
                       Links
                     </p>
+
                     <div className="mt-2">
                       <ProjectLinks links={project.links} />
                     </div>
@@ -294,7 +332,9 @@ export function Projects() {
                 project={project}
                 isExpanded={expandedProjectId === project.id}
                 onToggle={() =>
-                  setExpandedProjectId((current) => (current === project.id ? null : project.id))
+                  setExpandedProjectId((current) =>
+                    current === project.id ? null : project.id,
+                  )
                 }
               />
             </motion.div>
