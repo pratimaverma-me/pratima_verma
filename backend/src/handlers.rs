@@ -343,7 +343,10 @@ pub async fn projects() -> Json<ApiResponse<Vec<ProjectItem>>> {
                 "Low-Latency Systems".to_string(),
             ],
             image_url: None,
-            links: vec![],
+            links: vec![ProjectLink {
+                label: "View on GitHub".to_string(),
+                href: "https://github.com/pratimaverma-me/orderbook-rust-".to_string(),
+            }],
             featured: true,
             metrics: vec![
                 ProjectMetric {
