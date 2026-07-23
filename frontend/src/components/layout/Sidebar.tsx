@@ -38,11 +38,12 @@ export function Sidebar() {
     <aside
       className="
         relative
-        z-20
+        z-30
         w-full
         min-w-0
         border-b
         border-border
+        bg-background
         px-5
         py-8
 
@@ -50,20 +51,21 @@ export function Sidebar() {
         sm:py-10
 
         lg:fixed
-        lg:inset-y-0
         lg:left-0
+        lg:top-0
+        lg:bottom-0
         lg:flex
-        lg:h-screen
         lg:w-[36%]
         lg:flex-col
         lg:justify-between
+        lg:overflow-y-auto
         lg:border-b-0
         lg:border-r
         lg:px-10
         lg:py-14
       "
     >
-      <div>
+      <div className="shrink-0">
         {state.status === "loading" && (
           <div
             className="space-y-4"
@@ -113,7 +115,6 @@ export function Sidebar() {
           </>
         )}
 
-        {/* Desktop navigation */}
         <nav
           aria-label="Section navigation"
           className="mt-6 hidden lg:mt-8 lg:block"
@@ -184,7 +185,6 @@ export function Sidebar() {
           </ul>
         </nav>
 
-        {/* Mobile navigation */}
         <nav
           aria-label="Section navigation"
           className="-mx-1 mt-5 flex gap-1 overflow-x-auto pb-1 lg:hidden"
@@ -230,7 +230,7 @@ export function Sidebar() {
         </nav>
       </div>
 
-      <div className="mt-8 lg:mt-10">
+      <div className="mt-8 shrink-0 lg:mt-10">
         <div className="flex items-center gap-3">
           {socials.map((social) => {
             const Icon = socialIconMap[social.icon];
