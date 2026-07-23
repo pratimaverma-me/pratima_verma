@@ -157,7 +157,7 @@ export function Contact() {
           variants={container}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, amount: 0.1 }}
           className="relative z-10 mx-auto grid max-w-6xl gap-6 lg:grid-cols-2"
         >
           <ConnectCard data={state.data} />

@@ -47,6 +47,17 @@ body {
   overflow-x: hidden;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
 body {
   background-color: rgb(var(--background));
   color: rgb(var(--heading));
@@ -57,7 +68,7 @@ body {
 }
 
 .section-container {
-  @apply mx-auto w-full max-w-content px-6 sm:px-8 lg:px-12;
+  @apply mx-auto w-full max-w-content;
 }
 
 .bg-grid {

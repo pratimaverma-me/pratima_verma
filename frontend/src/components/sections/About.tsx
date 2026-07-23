@@ -35,7 +35,7 @@ export function About() {
           variants={container}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, amount: 0.1 }}
           className="grid gap-10 lg:grid-cols-[2fr_1fr]"
         >
           <div className="space-y-8">

@@ -196,12 +196,6 @@ pub async fn skills() -> Json<ApiResponse<Vec<SkillCategory>>> {
                 "Generics".to_string(),
                 "Multithreading".to_string(),
                 "Concurrency".to_string(),
-            ],
-        },
-        SkillCategory {
-            id: "skills-4".to_string(),
-            category: "Operating Systems".to_string(),
-            skills: vec![
                 "Linux".to_string(),
                 "Process Management".to_string(),
                 "Memory Management".to_string(),
@@ -223,19 +217,13 @@ pub async fn skills() -> Json<ApiResponse<Vec<SkillCategory>>> {
         },
         SkillCategory {
             id: "skills-6".to_string(),
-            category: "Performance Engineering".to_string(),
+            category: "Performance & Testing Engineering".to_string(),
             skills: vec![
                 "Benchmarking".to_string(),
                 "Profiling".to_string(),
                 "Optimization".to_string(),
                 "Throughput Analysis".to_string(),
                 "Latency Reduction".to_string(),
-            ],
-        },
-        SkillCategory {
-            id: "skills-7".to_string(),
-            category: "Testing & Debugging".to_string(),
-            skills: vec![
                 "Unit Testing".to_string(),
                 "Integration Testing".to_string(),
                 "GDB".to_string(),

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Boxes,
-  Bug,
   Calculator,
   ChevronDown,
   Cpu,
@@ -14,7 +13,6 @@ import {
   ListChecks,
   Network,
   Server,
-  Terminal,
   Wrench,
 } from "lucide-react";
 import { LucideIcon } from "lucide-react";
@@ -47,23 +45,15 @@ const CATEGORY_META: Record<string, { icon: LucideIcon; description: string }> =
   },
   "Rust & Systems Programming": {
     icon: Cpu,
-    description: "Memory-safe and concurrent systems development.",
-  },
-  "Operating Systems": {
-    icon: Terminal,
-    description: "Linux internals, process management, and shell-level tooling.",
+    description: "Memory-safe, concurrent systems development and Linux internals.",
   },
   "Financial Systems": {
     icon: LineChart,
     description: "Low-latency market-data and trading infrastructure.",
   },
-  "Performance Engineering": {
+  "Performance & Testing Engineering": {
     icon: Gauge,
-    description: "Profiling and optimization of latency-sensitive systems.",
-  },
-  "Testing & Debugging": {
-    icon: Bug,
-    description: "Verifying correctness and diagnosing failures under load.",
+    description: "Profiling, optimizing, and verifying latency-sensitive systems.",
   },
   "Tools & Frameworks": {
     icon: Wrench,
@@ -109,7 +99,7 @@ export function Skills() {
             variants={container}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, amount: 0.1 }}
             className="grid grid-cols-1 gap-5 md:grid-cols-2 2xl:grid-cols-3"
           >
             {visibleSkills.map((category) => {

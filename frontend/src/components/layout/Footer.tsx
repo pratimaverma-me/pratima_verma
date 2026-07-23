@@ -29,7 +29,7 @@ export function Footer() {
 
   return (
     <footer className="border-t border-border">
-      <div className="section-container flex flex-col items-center gap-6 py-9 sm:flex-row sm:justify-between">
+      <div className="section-container flex flex-col items-center gap-6 px-5 py-9 sm:flex-row sm:justify-between sm:px-8 lg:px-10 xl:px-12">
         <p className="text-sm text-muted">
           © {year} {name}. Built with Next.js & Tailwind CSS.
         </p>

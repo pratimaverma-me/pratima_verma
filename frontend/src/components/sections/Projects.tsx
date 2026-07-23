@@ -285,7 +285,7 @@ export function Projects() {
           variants={container}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, amount: 0.1 }}
           className="grid grid-cols-1 gap-6 xl:grid-cols-2"
         >
           {state.data.map((project) => (

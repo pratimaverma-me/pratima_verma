@@ -27,9 +27,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <MotionProvider>
-            <div className="min-h-screen w-full max-w-full overflow-x-hidden lg:grid lg:grid-cols-[minmax(280px,36%)_minmax(0,1fr)]">
+            <div className="min-h-screen w-full max-w-full overflow-x-hidden xl:grid xl:grid-cols-[minmax(280px,34%)_minmax(0,1fr)]">
               <Sidebar />
-              <div className="min-w-0 w-full">
+              <div className="min-w-0 w-full max-w-full">
                 <main>{children}</main>
                 <Footer />
               </div>
