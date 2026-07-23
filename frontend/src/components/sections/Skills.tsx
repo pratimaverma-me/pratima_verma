@@ -91,7 +91,7 @@ const DEFAULT_META = {
   description: "",
 };
 
-const INITIAL_VISIBLE_SKILLS = 6;
+const INITIAL_VISIBLE_SKILLS = 3;
 
 export function Skills() {
   const state = useApi(getSkills);
